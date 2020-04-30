@@ -4,7 +4,7 @@ import time
 import pygame
 from pygame import mixer
 
-# Intialize the pygame
+# Initialise the pygame
 pygame.init()
 
 # create the screen
@@ -115,6 +115,7 @@ while run:
     screen.fill((0, 0, 0))
     # Background Image
     screen.blit(background, (0, 0))
+    screen.blit(main_menu, (0, 0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
@@ -123,7 +124,6 @@ while run:
             if event.key == pygame.K_RETURN:
                 running = True
                 while running:
-
                     # RGB = Red, Green, Blue
                     screen.fill((0, 0, 0))
                     # Background Image
@@ -197,7 +197,6 @@ while run:
                             score_value += 1
                             enemyX[i] = random.randint(0, 736)
                             enemyY[i] = random.randint(50, 150)
-
 
                         enemy(enemyX[i], enemyY[i], i)
 
