@@ -108,6 +108,26 @@ def isCollision(enemyX, enemyY, bulletX, bulletY):
         return False
 
 
+# speed of enemy according to level of the game
+class enemy_lvl:
+    def __init__(self, enemy_speed_x, enemy_speed_y):
+        self.speed_x = enemy_speed_x
+        self.speed_y = enemy_speed_y
+    # method
+    def speed_level(self):
+        enemyX[i] += enemyX_change[i]
+        if enemyX[i] <= 0:
+            enemyX_change[i] = self.speed_x
+            enemyY[i] += enemyY_change[i]
+            clock.tick(60)
+        elif enemyX[i] >= 736:
+            enemyX_change[i] = self.speed_y
+            enemyY[i] += enemyY_change[i]
+
+# objects
+enemy_level_one = enemy_lvl(4, -4)
+enemy_level_two = enemy_lvl(10, -10)
+
 # Game Loop
 
 run = True
@@ -177,15 +197,10 @@ while run:
                             game_over_text()
                             break
 
-                        enemyX[i] += enemyX_change[i]
-                        if enemyX[i] <= 0:
-                            enemyX_change[i] = 4
-                            enemyY[i] += enemyY_change[i]
-                            clock.tick(60)
-                        elif enemyX[i] >= 736:
-                            enemyX_change[i] = -4
-                            enemyY[i] += enemyY_change[i]
-                            clock.tick(60)
+                        if 0 <= score_value < 5:
+                            enemy_level_one.speed_level()
+                        elif score_value >= 5:
+                            enemy_level_two.speed_level()
 
                         # Collision
                         collision = isCollision(enemyX[i], enemyY[i], bulletX, bulletY)
