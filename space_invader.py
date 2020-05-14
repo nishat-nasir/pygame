@@ -6,6 +6,7 @@ from pygame import mixer
 
 # Initialise the pygame
 pygame.init()
+pygame.font.init()
 
 # create the screen
 screen = pygame.display.set_mode((800, 600))
@@ -33,21 +34,6 @@ playerImg = pygame.image.load('player.png')
 playerX = 370
 playerY = 480
 playerX_change = 0
-
-# Enemy
-enemyImg = []
-enemyX = []
-enemyY = []
-enemyX_change = []
-enemyY_change = []
-num_of_enemies = 6
-
-for i in range(num_of_enemies):
-    enemyImg.append(pygame.image.load('enemy.png'))
-    enemyX.append(random.randint(0, 736))
-    enemyY.append(random.randint(50, 150))
-    enemyX_change.append(4)
-    enemyY_change.append(40)
 
 # Bullet
 
@@ -77,7 +63,7 @@ green = (0, 200, 0)
 
 
 def show_score(x, y):
-    score = font.render("Score : " + str(score_value), True, (255, 255, 255))
+    score = font.render("Score : " + str(score_value), True, green)
     screen.blit(score, (x, y))
 
 
@@ -108,11 +94,13 @@ def isCollision(enemyX, enemyY, bulletX, bulletY):
         return False
 
 
+# Enemy
 # speed of enemy according to level of the game
 class enemy_lvl:
     def __init__(self, enemy_speed_x, enemy_speed_y):
         self.speed_x = enemy_speed_x
         self.speed_y = enemy_speed_y
+
     # method
     def speed_level(self):
         enemyX[i] += enemyX_change[i]
@@ -124,9 +112,26 @@ class enemy_lvl:
             enemyX_change[i] = self.speed_y
             enemyY[i] += enemyY_change[i]
 
+
 # objects
-enemy_level_one = enemy_lvl(4, -4)
-enemy_level_two = enemy_lvl(10, -10)
+enemy_level_one = enemy_lvl(2, -2)
+enemy_level_two = enemy_lvl(5, -5)
+enemy_level_three = enemy_lvl(8, -8)
+
+# Enemy
+enemyImg = []
+enemyX = []
+enemyY = []
+enemyX_change = []
+enemyY_change = []
+num_of_enemies = 4
+
+for i in range(num_of_enemies):
+    enemyImg.append(pygame.image.load('enemy.png'))
+    enemyX.append(random.randint(0, 736))
+    enemyY.append(random.randint(50, 150))
+    enemyX_change.append(4)
+    enemyY_change.append(40)
 
 # Game Loop
 
@@ -199,8 +204,20 @@ while run:
 
                         if 0 <= score_value < 5:
                             enemy_level_one.speed_level()
-                        elif score_value >= 5:
+                            img = font.render("Level 1", True, green)
+                            screen.blit(img, (680, 10))
+
+                        elif 5 <= score_value < 10:
                             enemy_level_two.speed_level()
+                            img = font.render("Level 2", True, green)
+                            screen.blit(img, (680, 10))
+
+                        elif 10 <= score_value < 15:
+                            enemy_level_two.speed_level()
+                            img = font.render("Level 3", True, green)
+                            screen.blit(img, (680, 10))
+                        else:
+                            running = False
 
                         # Collision
                         collision = isCollision(enemyX[i], enemyY[i], bulletX, bulletY)
